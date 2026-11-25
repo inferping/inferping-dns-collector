@@ -1,0 +1,6 @@
+/dist/
+/inferping-dns-collector
+*.exe
+*.test
+*.out
+.DS_Store

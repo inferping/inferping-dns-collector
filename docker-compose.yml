@@ -1,0 +1,20 @@
+services:
+  inferping-dns-collector:
+    build: .
+    image: ghcr.io/inferping/inferping-dns-collector:latest
+    container_name: inferping-dns-collector
+    restart: unless-stopped
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    environment:
+      INFERPING_API_KEY: "${INFERPING_API_KEY}"
+    ports:
+      - "127.0.0.1:5514:5514/udp"
+      - "127.0.0.1:5514:5514/tcp"
+    command:
+      - "-syslog-listen=0.0.0.0:5514"
+      - "-region=hq-amsterdam"
+      - "-interval=60s"

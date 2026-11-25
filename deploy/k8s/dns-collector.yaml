@@ -1,0 +1,87 @@
+# InferPing Zero-PII DNS & Log Collector (GDPR & Works-Council Safe)
+# Passive domain-level counter only: zero active network probing, zero payload inspection,
+# strips client IPs immediately in RAM, and exports 60-second aggregate AI tool counters via OTLP/HTTP.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: inferping-dns-collector-secret
+  namespace: monitoring
+type: Opaque
+stringData:
+  api-key: "inf_live_replace_with_workspace_key"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inferping-dns-collector
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: inferping-dns-collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: inferping-dns-collector
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: inferping-dns-collector
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: dns-collector
+          image: ghcr.io/inferping/inferping-dns-collector:latest
+          args:
+            - "-syslog-listen=0.0.0.0:5514"
+            - "-region=k8s-eu-cluster"
+            - "-interval=60s"
+          env:
+            - name: INFERPING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: inferping-dns-collector-secret
+                  key: api-key
+          ports:
+            - name: syslog-udp
+              containerPort: 5514
+              protocol: UDP
+            - name: syslog-tcp
+              containerPort: 5514
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 15m
+              memory: 24Mi
+            limits:
+              cpu: 150m
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inferping-dns-collector
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: inferping-dns-collector
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: inferping-dns-collector
+  ports:
+    - name: syslog-udp
+      port: 5514
+      targetPort: 5514
+      protocol: UDP
+    - name: syslog-tcp
+      port: 5514
+      targetPort: 5514
+      protocol: TCP

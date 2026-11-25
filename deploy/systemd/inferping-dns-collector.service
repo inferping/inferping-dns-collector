@@ -1,0 +1,21 @@
+[Unit]
+Description=InferPing Zero-PII Corporate DNS & Log Domain Counter (OpenTelemetry)
+Documentation=https://github.com/inferping/inferping-dns-collector
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+EnvironmentFile=-/etc/inferping/dns-collector.env
+ExecStart=/usr/local/bin/inferping-dns-collector -syslog-listen=0.0.0.0:5514 -region=hq-vlan -interval=60s
+Restart=always
+RestartSec=5
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+CapabilityBoundingSet=
+
+[Install]
+WantedBy=multi-user.target
