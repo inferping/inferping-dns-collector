@@ -10,4 +10,5 @@
 
 ## 2. Commit Security Notes
 
-- **2026-11-25 (`v1.0.0`)**: Initial standalone release of `inferping-dns-collector` separated from `inferping-probe` so corporate AD, firewall, SIEM, and Works Council reviewers can deploy a dedicated zero-dependency, passive-only domain counter with RFC 5425 mTLS syslog, Windows AD DNS wire-label parsing, Loki/Splunk/HEC/Kafka connectors, 5m ETag catalogue sync, and lossless retry on transient OTLP HTTP errors.
+- **2026-11-25 (`v1.0.1` docs)**: Kept README and source comments strictly focused on passive DNS/log domain counting with factual standard-library architecture notes and zero active-probing terminology.
+- **2026-11-25 (`v1.0.0`)**: Initial standalone release of `inferping-dns-collector` as a dedicated zero-dependency, passive-only domain counter with RFC 5425 mTLS syslog, Windows AD DNS wire-label parsing, Loki/Splunk/HEC/Kafka connectors, 5m ETag catalogue sync, and lossless retry on transient OTLP HTTP errors.

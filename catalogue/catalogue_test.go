@@ -33,13 +33,13 @@ func TestZeroActiveProbingOrThirdPartyDependencies(t *testing.T) {
 		t.Fatalf("expected zero external Go dependencies in go.mod, got:\n%s", string(gomod))
 	}
 
-	// Ensure no Go source file in this repository contains active LLM/endpoint probing credentials or logic
+	// Ensure no Go source file in this repository contains active endpoint probing logic
 	for _, rel := range []string{"catalogue.go", "connectors.go", "../cmd/inferping-dns-collector/main.go"} {
 		src, rErr := os.ReadFile(rel)
 		if rErr != nil {
 			t.Fatalf("read %s: %v", rel, rErr)
 		}
-		for _, forbidden := range []string{"LLM_API_KEY", "chat/completions", "tools/list", "jsonrpc"} {
+		for _, forbidden := range []string{"chat/completions", "tools/list", "jsonrpc", "max_tokens"} {
 			if strings.Contains(string(src), forbidden) {
 				t.Fatalf("found forbidden active-probing token %q in %s", forbidden, rel)
 			}

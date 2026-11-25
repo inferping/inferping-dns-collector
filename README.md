@@ -6,11 +6,11 @@
 
 Zero-PII OpenTelemetry domain counter for corporate Shadow-AI governance. Aggregates DNS query logs, RFC 5425 encrypted TLS/mTLS syslog, Grafana Loki, Splunk, HTTP HEC, and Kafka streams locally in RAM, strips all client IP addresses and usernames immediately, and exports 60-second organization-wide AI tool hit counts (`inferping.ai.discovery.hits`) via standard **OpenTelemetry (`OTLP/HTTP`)**.
 
-Built in the EU for **[InferPing Governance](https://inferping.eu)** and designed specifically to pass **CISO, Active Directory / Firewall Admin, DPO (`GDPR` / `AVG` / `DSGVO`), and European Works Council (`OR` / `Betriebsrat` / `CSE`)** security review in minutes.
+Built in the EU for **[InferPing](https://inferping.eu)**. Written using only the Go standard library (`CGO_ENABLED=0`), with strictly passive log reading and immediate in-memory stripping of client IP addresses.
 
 ---
 
-## Security & Privacy Guarantees (5-Minute CISO / DPO Audit)
+## Architecture & Privacy Properties
 
 - **Strictly passive domain counting**: Contains **zero** active network probing code, **zero** payload or prompt inspection, **zero** TLS interception, and **zero** endpoint/browser agents.
 - **Zero third-party Go dependencies**: [`go.mod`](./go.mod) uses exclusively the Go standard library (`CGO_ENABLED=0`). The entire codebase is ~900 lines of plain Go (`catalogue/` + `cmd/inferping-dns-collector/`), auditable end-to-end in 5 minutes.
@@ -101,10 +101,10 @@ inferping-dns-collector -kafka-brokers="kafka-1.internal:9092,kafka-2.internal:9
 
 ---
 
-## Related Repositories
+## Related Links
 
-- **[InferPing (`inferping.eu`)](https://inferping.eu)**: European AI Governance, Employee Approved-AI Directory, and AI Gateway Monitoring (`100% EU: NL, PL & DE`).
-- **[`inferping-probe`](https://github.com/inferping/inferping-probe)**: Separate synthetic check binary for AI platform teams measuring internal VPC LLM streaming latency (`TTFT`) and gateway availability.
+- **[InferPing (`inferping.eu`)](https://inferping.eu)**: European Shadow-AI Governance and Employee Approved-AI Directory (`100% EU: NL, PL & DE`).
+- **[Documentation (`inferping.eu/docs#shadow-ai`)](https://inferping.eu/docs/#shadow-ai)**: Connector setup and deployment reference.
 
 ## License
 
